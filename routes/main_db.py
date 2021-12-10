@@ -75,3 +75,10 @@ def add_section(section):
     else:
         raise NameError(
             "DB I/O module is not initialized. you may have to initialize DB module with 'main_db.initialize(filename)'.")
+
+def remove_section(section):
+    if initialized:
+        return db.remove_section(section)
+    else:
+        raise NameError(
+            "DB I/O module is not initialized. you may have to initialize DB module with 'main_db.initialize(filename)'.")

@@ -7,6 +7,7 @@ def setuponce(db):
     while True:
         dbn = input("데이터베이스 파일 이름(기본값 : db) : ")
         if dbn == "":
+            dbn = "db"
             db.set("config", "db_path", "db")
             break
         elif func.isstartingwithnumber(dbn):
@@ -19,6 +20,7 @@ def setuponce(db):
     while True:
         dbt = input("데이터베이스 제목(기본값 : 아무말) : ")
         if dbt == "":
+            dbt = "아무말"
             db.set("config", "db_title", "아무말")
             break
         else:
@@ -28,6 +30,7 @@ def setuponce(db):
     while True:
         ui = input("기본 사용자 이름(기본값 : amumal) : ")
         if ui == "":
+            ui = "amumal"
             db.set("config", "username", "amumal")
             break
         elif func.isstartingwithnumber(ui):

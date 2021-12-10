@@ -9,7 +9,26 @@ import configparser
 cnf = configparser.ConfigParser()
 if os.path.exists("amumal.cfg"):
     cnf.read("amumal.cfg")
-    db.initialize("db/" + cnf.get("config", "db_path") + ".dat")
+    dbp = cnf.get("config", "db_path")
+    while True:
+        di = input("DB 경로 (최근 : " + dbp + ") : ")
+        if di != "":
+            if os.path.exists("db/" + di + ".dat"):
+                dbp = di
+                cnf.set("config", "db_path", di)
+                break
+            else:
+                print("존재하지 않는 데이터베이스 파일입니다.")
+                i = input("새로 생성할까요? (Y/N) : ")
+                if i == "Y" or i == "y":
+                    pf = open("db/" + di + ".dat", "w")
+                    pf.write("")
+                    pf.close()
+                else:
+                    continue
+        else:
+            break
+    db.initialize("db/" + dbp + ".dat")
 else:
     # Make Config file
     pf = open("amumal.cfg", "w")
@@ -23,4 +42,5 @@ else:
     pf.close()
     db.initialize("db/" + sonce[0] + ".dat")
 
+# Call main UI
 ui.a_list(db, cnf)

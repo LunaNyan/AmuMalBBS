@@ -1,5 +1,6 @@
 import routes.main_articles as main_articles
 import routes.func as func
+import routes.texteditor as texteditor
 import math
 
 def a_reader(db, cfg, article):
@@ -8,7 +9,7 @@ def a_reader(db, cfg, article):
     while True:
         func.screen_clear()
         print(article[1])
-        print("작성자 : " + article[2] + ", 작성 일자 " + func.epochtostr(article[3])+ "\n----------")
+        print("작성자 : " + article[2] + "\n----------")
         print(content)
         print("----------")
         if attention != "":
@@ -21,27 +22,35 @@ def a_reader(db, cfg, article):
             attention = "TODO"
             continue
         elif i == "D":
-            attention = "TODO"
-            continue
+            i = input("정말로 삭제하시겠습니까? (Y/N) : ")
+            if i == "Y" or i == "y":
+                db.remove_section(article[0])
+                db.commit()
+                break
+            else:
+                continue
         else:
             attention = ""
             continue
 
 def a_list(db, cfg):
-    al = main_articles.list_articles(db)
     page = 1
-    pages = math.ceil(len(al) / 10)
     attention = ""
     # 게시물 리스트
     while True:
+        al = main_articles.list_articles(db)
+        pages = math.ceil(len(al) / 10)
         func.screen_clear()
         print(cfg.get("config", "db_title") + " (게시물 총 " + str(len(al)) + "개)\n----------")
         c = (page - 1) * 10
         trk = al[c:c+10]
-        nx = 10 + ((page - 1) * 5)
-        for k in trk:
-            print("#" + str(nx) + "\t" + k[1] + "\n\t작성자 : " + k[2] + ", 작성 일자 " + func.epochtostr(k[3]))
-            nx += 1
+        nx = 1 + ((page - 1) * 10)
+        if len(al) == 0:
+            print("작성된 게시물이 없습니다.")
+        else:
+            for k in trk:
+                print("#" + str(nx) + "\t" + k[1] + "\n\t작성자 : " + k[2])
+                nx += 1
         print("----------")
         if attention != "":
             print(attention)
@@ -89,7 +98,7 @@ def a_list(db, cfg):
         elif i.startswith("R"):
             try:
                 t = i.replace("R", "")
-                if int(t) <= 0 or int(t) >= len(al):
+                if int(t) <= 0 or int(t) > len(al):
                     attention = "존재하지 않는 게시물 번호입니다."
                     continue
                 else:
@@ -100,7 +109,13 @@ def a_list(db, cfg):
                 attention = "R[게시물 번호] 형태로 입력해 주십시오. (예시 : R1)"
                 continue
         elif i == "W":
-            attention = "TODO"
+            usn = cfg.get("config", "username")
+            title = input("게시물 제목 입력 : ")
+            username = input("작성자 이름 입력 (" + usn + ") : ")
+            if username == "":
+                username = usn
+            t = texteditor.editor(title)
+            main_articles.write_article(db, title, username, t)
             continue
         elif i == "X":
             break
