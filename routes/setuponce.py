@@ -21,16 +21,13 @@ def setuponce(db):
         dbt = input("데이터베이스 제목(기본값 : 아무말) : ")
         if dbt == "":
             dbt = "아무말"
-            db.set("config", "db_title", "아무말")
             break
         else:
-            db.set("config", "db_title", dbt)
             break
     # User name
     while True:
         ui = input("기본 사용자 이름(기본값 : amumal) : ")
         if ui == "":
-            ui = "amumal"
             db.set("config", "username", "amumal")
             break
         elif func.isstartingwithnumber(ui):
@@ -49,7 +46,6 @@ def setuponce(db):
             db.set("config", "backup_db", "0")
             break
         elif da == "":
-            da = "Y"
             db.set("config", "backup_db", "1")
             break
         else:
@@ -58,4 +54,4 @@ def setuponce(db):
     print("초기 설정을 완료하였습니다.")
     with open("amumal.cfg", 'w') as configfile:
         db.write(configfile)
-    return [dbn, dbt, ui, da]
+    return [dbn, dbt]

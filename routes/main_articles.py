@@ -5,7 +5,10 @@ def list_articles(db):
     s = db.sections()
     truck = []
     for i in s:
-        truck.append([i, db.read_b64(i, "title"), db.read_b64(i, "author"), db.read_b64(i, "datetime")])
+        if i == "metadata":
+            pass
+        else:
+            truck.append([i, db.read_b64(i, "title"), db.read_b64(i, "author"), db.read_b64(i, "datetime")])
     return truck
 
 def read_article(db, id):

@@ -125,7 +125,7 @@ def a_list(db, cfg):
         al.reverse()
         pages = math.ceil(len(al) / 10)
         func.screen_clear()
-        print(cfg.get("config", "db_title") + " (게시물 총 " + str(len(al)) + "개)\n----------")
+        print(db.read_b64("metadata", "db_title") + " (게시물 총 " + str(len(al)) + "개)\n----------")
         c = (page - 1) * 10
         trk = al[c:c+10]
         nx = len(al) - ((page - 1) * 10)
