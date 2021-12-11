@@ -36,7 +36,9 @@ def read_raw(section, key):
 
 def read_b64(section, key):
     if initialized:
-        return str(base64.b64decode(db.get(section, key)).decode('utf-8'))
+        dr = db.get(section, key)
+        dr = dr.replace("|", "=")
+        return str(base64.b64decode(dr).decode('utf-8'))
     else:
         raise NameError(
             "DB I/O module is not initialized. you may have to initialize DB module with 'main_db.initialize(filename)'.")
@@ -53,6 +55,7 @@ def write_b64(section, key, value):
         e = base64.b64encode(value.encode('utf-8'))
         e = str(e).replace("b'", "")
         e = e.replace("'", "")
+        e = e.replace("=", "|")
         db.set(section, key, e)
     else:
         raise NameError(

@@ -19,7 +19,7 @@ def trk2str(truck):
     t = ""
     for i in truck:
         t += i + "\n"
-    return t[:-2]
+    return t[:-1]
 
 def editor(title, text=None):
     # generate text truck

@@ -21,9 +21,10 @@ def read_comment(db, id):
         return []
     else:
         # make accessible list
-        ca = ca.split(",")
-        cc = cc.split(",")
-        cd = cd.split(",")
+        # split with "✦"
+        ca = ca.split("✦")
+        cc = cc.split("✦")
+        cd = cd.split("✦")
         # make comments truck
         trk = []
         tn = 0
@@ -38,9 +39,9 @@ def save_comment(db, id, trk):
     tc = ""
     td = ""
     for c in trk:
-        ta += c[0] + ","
-        tc += c[1] + ","
-        td += c[2] + ","
+        ta += c[0] + "✦"
+        tc += c[1] + "✦"
+        td += c[2] + "✦"
     db.write_b64(id, "comment_author", ta[:-1])
     db.write_b64(id, "comment_content", tc[:-1])
     db.write_b64(id, "comment_datetime", td[:-1])
