@@ -28,6 +28,8 @@ if os.path.exists("amumal.cfg"):
                     continue
         else:
             break
+    #if cnf.get("config", "backup_db") == "1":
+    #    db.copy("db/" + dbp + "_backup.dat")
     db.initialize("db/" + dbp + ".dat")
 else:
     # Make Config file

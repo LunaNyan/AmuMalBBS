@@ -24,10 +24,7 @@ def commit():
 def copy(to_name):
     if initialized:
         commit()
-        shutil.copy(db_path, to_name)
-    else:
-        raise NameError(
-            "DB I/O module is not initialized. you may have to initialize DB module with 'main_db.initialize(filename)'.")
+    shutil.copy(db_path, to_name)
 
 # DB I/O department
 def read_raw(section, key):

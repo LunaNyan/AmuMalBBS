@@ -3,6 +3,36 @@ import routes.func as func
 import routes.texteditor as texteditor
 import math
 
+def a_comments(db, cfg, article):
+    while True:
+        ctrk = main_articles.read_comment(db, article[0])
+        func.screen_clear()
+        print("댓글 목록")
+        print(article[1])
+        print("----------")
+        for c in ctrk:
+            print(c[0])
+            print("\t" + c[1])
+        print("----------")
+        print("뒤로가기(P), 댓글 작성(W)")
+        i = input(cfg.get("config", "username") + "> ")
+        if i == "P":
+            break
+        elif i == "W":
+            usn = cfg.get("config", "username")
+            print("취소(@X)")
+            username = input("작성자 이름 입력 (" + usn + ") : ")
+            if username == "@X":
+                continue
+            content = input("내용 입력 : ")
+            if content == "@X":
+                continue
+            main_articles.write_comment_once(db, article[0], username, content)
+            db.commit()
+            continue
+        else:
+            continue
+
 def a_reader(db, cfg, article):
     content = main_articles.read_article(db, article[0])
     attention = ""
@@ -14,10 +44,14 @@ def a_reader(db, cfg, article):
         print("----------")
         if attention != "":
             print(attention)
-        print("목록으로(P), 수정하기(E), 삭제하기(D)")
+        print("목록으로(P), 댓글 보기(C), 수정하기(E), 삭제하기(D)")
         i = input(cfg.get("config", "username") + "> ")
         if i == "P":
             break
+        elif i == "C":
+            a_comments(db, cfg, article)
+            db.commit()
+            continue
         elif i == "E":
             attention = "TODO"
             continue
