@@ -59,14 +59,20 @@ def editor(title, text=None):
                 continue
         elif i.startswith("@R") or i.startswith("@r"):
             try:
-                eln = int(i.replace("@R", "").replace("@r", ""))
-                if eln <= 0 or eln >= len(trk):
-                    attention = "잘못된 줄 번호입니다."
+                eln = i.replace("@R", "").replace("@r", "")
+                if "-" in eln:
+                    eln = eln.split("-")
+                    del(trk[int(eln[0])+1:int(eln[1])])
                     continue
                 else:
-                    del(trk[eln-1])
-                    attention = ""
-                    continue
+                    eln = int(eln)
+                    if eln <= 0 or eln >= len(trk):
+                        attention = "잘못된 줄 번호입니다."
+                        continue
+                    else:
+                        del(trk[eln-1])
+                        attention = ""
+                        continue
             except ValueError:
                 attention = "@R[줄 번호] 형태로 입력해 주십시오. (예시 : @R1)"
                 continue
