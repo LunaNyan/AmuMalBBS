@@ -33,7 +33,7 @@ def editor(title, text=None):
         ln = reset_screen(title, trk, attention)
         i = input(str(ln) + "\t | ")
         # Command parser
-        if i == "@S":
+        if i.upper() == "@S":
             ip = input("저장하시겠습니까? (Y/N) 취소(아무 키) > ")
             if ip == "Y" or ip == "y":
                 return trk2str(trk)
@@ -42,9 +42,9 @@ def editor(title, text=None):
             else:
                 attention = "저장하지 않고 편집을 계속합니다."
                 continue
-        elif i.startswith("@E"):
+        elif i.startswith("@E") or i.startswith("@e"):
             try:
-                eln = int(i.replace("@E", ""))
+                eln = int(i.replace("@E", "").replace("@e", ""))
                 if eln <= 0 or eln >= len(trk):
                     attention = "잘못된 줄 번호입니다."
                     continue
@@ -57,9 +57,9 @@ def editor(title, text=None):
             except ValueError:
                 attention = "@E[줄 번호] 형태로 입력해 주십시오. (예시 : @E1)"
                 continue
-        elif i.startswith("@R"):
+        elif i.startswith("@R") or i.startswith("@r"):
             try:
-                eln = int(i.replace("@R", ""))
+                eln = int(i.replace("@R", "").replace("@r", ""))
                 if eln <= 0 or eln >= len(trk):
                     attention = "잘못된 줄 번호입니다."
                     continue
