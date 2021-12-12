@@ -72,3 +72,7 @@ def write_article(db, title, username, content, comments=None):
     else:
         pass
     db.commit()
+
+def edit_article(aid, content):
+    db.write_b64(aid, "content", content)
+    db.commit()

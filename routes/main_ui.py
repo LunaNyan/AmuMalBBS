@@ -102,7 +102,10 @@ def a_reader(db, cfg, article):
             db.commit()
             continue
         elif i.upper() == "E":
-            attention = "TODO"
+            et = texteditor.editor(article[1], content)
+            main_articles.edit_article(article[0], et)
+            content = main_articles.read_article(db, article[0]) # reload article
+            attention = "글을 수정하였습니다."
             continue
         elif i.upper() == "D":
             i = input("정말로 삭제하시겠습니까? (Y/N) : ")
