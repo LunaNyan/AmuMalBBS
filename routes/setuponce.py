@@ -10,9 +10,6 @@ def setuponce(db):
             dbn = "db"
             db.set("config", "db_path", "db")
             break
-        elif func.isstartingwithnumber(dbn):
-            print("데이터베이스 파일 이름은 숫자로 시작할 수 없습니다.")
-            continue
         else:
             db.set("config", "db_path", dbn)
             break
@@ -30,9 +27,6 @@ def setuponce(db):
         if ui == "":
             db.set("config", "username", "amumal")
             break
-        elif func.isstartingwithnumber(ui):
-            print("기본 사용자 이름은 숫자로 시작할 수 없습니다.")
-            continue
         else:
             db.set("config", "username", ui)
             break
